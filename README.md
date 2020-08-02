@@ -5,7 +5,7 @@ Data structures
 - Linked Lists
     - [ ] Stack
     - [ ] Queue
-    - [ ] Singly linked list
+    - [x] Singly linked list
     - [ ] Doubly linked list
 - Trees
     - [x] Binary search tree
