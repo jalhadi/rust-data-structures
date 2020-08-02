@@ -24,14 +24,10 @@ impl<T: Eq> List<T> {
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        let old_head = self.0.take();
-        match old_head {
-            None => None,
-            Some(node) => {
-                mem::replace(self, node.next);
-                Some(node.data)
-            }
-        }
+        self.0.take().map(|node| {
+            mem::replace(self, node.next);
+            node.data
+        })
     }
 
     pub fn includes(&self, data: T) -> bool {
@@ -43,6 +39,15 @@ impl<T: Eq> List<T> {
                 }
                 node.next.includes(data)
             }
+        }
+    }
+}
+
+impl<T: Eq> Drop for List<T> {
+    fn drop(&mut self) {
+        let mut maybe_node = self.0.take();
+        while let Some(mut node) = maybe_node {
+            maybe_node = mem::replace(&mut node.next.0, None);
         }
     }
 }
